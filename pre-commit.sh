@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Git pre-commit hooks. https://github.com/cavo789/bash_git_hooks/
+# Install:
+# cd path/to/git/repo
+# curl -fL -o .git/hooks/pre-commit.sh https://raw.githubusercontent.com/cavo789/bash_git_hooks/main/pre-commit.sh
+# chmod +x .git/hooks/pre-commit.sh
+
 HOOK="pre-commit"
 
 # Get the alphabetical list of $HOOK hooks and run them one by one.

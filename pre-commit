@@ -6,35 +6,34 @@
 
 # http://patorjk.com/software/taag/#p=display&f=Big&t=Git%20hooks
 cat <<\EOF
-   _____ _ _     _                 _        
-  / ____(_) |   | |               | |       
- | |  __ _| |_  | |__   ___   ___ | | _____ 
+   _____ _ _     _                 _
+  / ____(_) |   | |               | |
+ | |  __ _| |_  | |__   ___   ___ | | _____
  | | |_ | | __| | '_ \ / _ \ / _ \| |/ / __|
  | |__| | | |_  | | | | (_) | (_) |   <\__ \
   \_____|_|\__| |_| |_|\___/ \___/|_|\_\___/
-                                            
+
 pre-commit hook
-                                            
+
 EOF
 
-HOOK="pre-commit"
+HOOK_FOLDER="pre-commit-scripts"
 
-# Get the alphabetical list of $HOOK hooks and run them one by one.
-# As soon as one hook failed, the $HOOK hook will fails and the commit
+# Get the alphabetical list of pre-commit hooks and run them one by one.
+# As soon as one hook failed, the pre-commit hook will fails and the commit
 # action will be aborted.
 
 # Folder containing this script
-CURDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+CURDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
 # Loop
-for FILE in `ls $CURDIR/$HOOK/ | sort -g`; 
-do
+for FILE in $(ls "$CURDIR/$HOOK_FOLDER/" | sort -g); do
     # Get full path
-    FILE=$(realpath $CURDIR/$HOOK/$FILE)
+    FILE=$(realpath "$CURDIR/$HOOK_FOLDER/$FILE")
 
-    printf "\e[1;30m%s\e[m\n" "Process $FILE" >&1 
+    printf "\e[1;30m%s\e[m\n" "Process $FILE" >&1
 
-    OUTPUT=`/bin/bash $FILE`
+    OUTPUT=$(/bin/bash "$FILE")
 
     if [ $? -ne 0 ]; then
         # Don't execute the next hook if this one has failed

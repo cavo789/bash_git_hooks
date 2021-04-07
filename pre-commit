@@ -1,10 +1,21 @@
 #!/bin/bash
 
 # Git pre-commit hooks. https://github.com/cavo789/bash_git_hooks/
-# Install:
-# cd path/to/git/repo
-# curl -fL -o .git/hooks/pre-commit https://raw.githubusercontent.com/cavo789/bash_git_hooks/main/pre-commit
-# chmod +x .git/hooks/pre-commit
+#
+# Please read https://github.com/cavo789/bash_git_hooks#install for installation guide
+
+# http://patorjk.com/software/taag/#p=display&f=Big&t=Git%20hooks
+cat <<\EOF
+   _____ _ _     _                 _        
+  / ____(_) |   | |               | |       
+ | |  __ _| |_  | |__   ___   ___ | | _____ 
+ | | |_ | | __| | '_ \ / _ \ / _ \| |/ / __|
+ | |__| | | |_  | | | | (_) | (_) |   <\__ \
+  \_____|_|\__| |_| |_|\___/ \___/|_|\_\___/
+                                            
+pre-commit hook
+                                            
+EOF
 
 HOOK="pre-commit"
 

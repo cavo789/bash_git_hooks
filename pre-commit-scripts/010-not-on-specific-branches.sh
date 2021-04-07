@@ -4,11 +4,7 @@
 #
 # Stops accidental commits to master and dev branches.
 #
-# Install:
-# cd path/to/git/repo
-# mkdir -p .git/hooks/pre-commit-scripts
-# curl -fL -o .git/hooks/pre-commit-scripts/010-not-on-specific-branches.sh https://raw.githubusercontent.com/cavo789/bash_git_hooks/main/pre-commit/010-not-on-specific-branches.sh
-# chmod +x .git/hooks/pre-commit-scripts/010-not-on-specific-branches.sh
+# Please read https://github.com/cavo789/bash_git_hooks#install for installation guide
 
 BRANCH=`git rev-parse --abbrev-ref HEAD`
 

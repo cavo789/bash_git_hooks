@@ -40,6 +40,10 @@ fi
 printf "\n\n\e[1;32m%s\e[m\n" "Install hooks in $LOCAL"
 
 # Get the pre-commit hook
+printf "\n\e[1;33m%s\e[m" "Download the pre-commit hook"
+
+printf "\n\e[1;34m%s\e[m" "    Get the pre-commit bash script"
+
 curl -fL -o "$LOCAL/pre-commit" "$REMOTE/pre-commit" --no-progress-meter 
 chmod +x "$LOCAL/pre-commit"
 
@@ -50,10 +54,12 @@ REMOTE_SCRIPTS="$REMOTE/pre-commit-scripts"
 # Create the local folder
 mkdir -p "$LOCAL_SCRIPTS"
 
+printf "\n\e[1;34m%s\e[m" "    Download pre-commit scripts"
+
 # Download scripts
 for script in "${arrScripts[@]}"
 do
-    printf "\n\e[1;33m%s\e[m" "Download $script and save it to $LOCAL_SCRIPTS/$script"
+    printf "\n\e[1;36m%s\e[m" "        Download $script"
 
     curl -fL -o "$LOCAL_SCRIPTS/$script" "$REMOTE_SCRIPTS/$script" --no-progress-meter 
     chmod +x "$LOCAL_SCRIPTS/$script"

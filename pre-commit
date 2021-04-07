@@ -3,6 +3,11 @@
 # Git pre-commit hooks. https://github.com/cavo789/bash_git_hooks/
 #
 # Please read https://github.com/cavo789/bash_git_hooks#install for installation guide
+#
+# This script will fires, one by one and in an alphabetical order, each bash
+# scripts present in the pre-commit-scripts sub-folder. As soon as one of these
+# scripts returns an exitcode different than 0, the git commit action will be aborted
+# and an error message will be displayed
 
 # http://patorjk.com/software/taag/#p=display&f=Big&t=Git%20hooks
 cat <<\EOF
@@ -17,6 +22,10 @@ pre-commit hook
 
 EOF
 
+printf "\e[1;33m%s\e[m\n" "Tips:" >&1
+printf "\e[1;33m%s\e[m\n" "  1. run .git/hooks/pre-commit on the command line to start, anytime, these checks." >&1
+printf "\e[1;33m%s\e[m\n\n" "  2. To disable a check, just rename it by adding an underscore as the first character of his filename." >&1
+
 HOOK_FOLDER="pre-commit-scripts"
 
 # Get the alphabetical list of pre-commit hooks and run them one by one.
@@ -29,23 +38,34 @@ CURDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 # Loop
 # shellcheck disable=SC2012
 for FILE in $(ls "$CURDIR/$HOOK_FOLDER/" | sort -g); do
+
+    # Extract the first character of the filename
+    short="${FILE:0:1}"
+
     # Get full path
     FILE=$(realpath "$CURDIR/$HOOK_FOLDER/$FILE")
 
-    printf "\e[1;30m%s\e[m\n" "Process $FILE" >&1
+    # Skip scripts when the name starts with an underscore
+    if [[ ! "$short" == "_" ]]; then
 
-    OUTPUT=$(/bin/bash "$FILE")
+        printf "\e[1;30m%s\e[m\n" "Process $FILE" >&1
 
-    # shellcheck disable=SC2181
-    if [ $? -ne 0 ]; then
-        # Don't execute the next hook if this one has failed
-        printf "\n\e[1;91m%s\e[m\n" "ERROR! The $FILE has failed with the following error:" >&2
-        printf "\n\e[1;91m%s\e[m\n" "$OUTPUT"
-        printf "\n\e[1;91m%s\e[m\n" "The current git action is aborted." >&2
-        exit 1
+        # Run and capture the output of the script (both normal output and errors)
+        OUTPUT=$(/bin/bash "$FILE" 2>&1)
+
+        # shellcheck disable=SC2181
+        if [ $? -ne 0 ]; then
+            # Don't execute the next hook if this one has failed
+            printf "\n\e[1;91m%s\e[m\n" "ERROR! The $FILE has failed with the following error:" >&2
+            printf "\n\e[1;91m%s\e[m\n" "$OUTPUT"
+            printf "\n\e[1;91m%s\e[m\n" "The current git action is aborted." >&2
+            exit 1
+        fi
+    else
+        printf "\e[0;100m%s\e[m\n" "Skip    $FILE" >&1
     fi
 done
 
-printf "\n\e[1;92m%s\e[m\n\n" "${BASH_SOURCE[0]} Success!"
+printf "\n\e[1;92m%s\e[m\n" "${BASH_SOURCE[0]} Success!"
 
 exit 0

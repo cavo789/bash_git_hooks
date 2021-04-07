@@ -14,5 +14,3 @@ if [[ "$BRANCH" == "main" || "$BRANCH" == "master" || "$BRANCH" == "dev" ]]; the
     echo "If so, commit with the --no-verify parameter to bypass this pre-commit hook."
     exit 1
 fi
-
-exit 0

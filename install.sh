@@ -22,7 +22,7 @@ EOF
 # curl -fL -o install.sh $REMOTE/install.sh
 
 # shellcheck disable=SC2034
-read -r -p "Do you want install hooks globally (Yes means for all repositories) or only for this repo? [Y/n]:" -i "Y" yesno
+read -r -p "Do you want install hooks globally (Yes means for all repositories) or only for this repo? [Y/n]:" yesno
 
 # Transform to lowercase
 yesno="${yesno,,}"

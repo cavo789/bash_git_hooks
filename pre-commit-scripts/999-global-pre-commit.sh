@@ -16,5 +16,3 @@ if [[ -f ".git/hooks/pre-commit-scripts" ]]; then
         exit $?
     fi
 fi
-
-exit 0

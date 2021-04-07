@@ -21,6 +21,7 @@ EOF
 # Get this script from his repository
 # curl -fL -o install.sh $REMOTE/install.sh
 
+# shellcheck disable=SC2034
 read -r -p "Do you want install hooks globally (Yes means for all repositories) or only for this repo? [Y/n]:" -i "Y" yesno
 
 # Transform to lowercase
@@ -28,7 +29,7 @@ yesno="${yesno,,}"
 
 if [[ "$yesno" == "y" || "$yesno" == "" ]]; then
     # Globally
-    LOCAL="`realpath ~`/.git/hooks"
+    LOCAL="$(realpath ~)/.git/hooks"
     mkdir -p "$LOCAL"
 
     git config --global core.hooksPath "$LOCAL"
@@ -44,7 +45,7 @@ printf "\n\e[1;33m%s\e[m" "Download the pre-commit hook"
 
 printf "\n\e[1;34m%s\e[m" "    Get the pre-commit bash script"
 
-curl -fL -o "$LOCAL/pre-commit" "$REMOTE/pre-commit" --no-progress-meter 
+curl -fL -o "$LOCAL/pre-commit" "$REMOTE/pre-commit" --no-progress-meter
 chmod +x "$LOCAL/pre-commit"
 
 # Now, download each scripts from the REMOTE to the LOCAL folder
@@ -57,11 +58,10 @@ mkdir -p "$LOCAL_SCRIPTS"
 printf "\n\e[1;34m%s\e[m" "    Download pre-commit scripts"
 
 # Download scripts
-for script in "${arrScripts[@]}"
-do
+for script in "${arrScripts[@]}"; do
     printf "\n\e[1;36m%s\e[m" "        Download $script"
 
-    curl -fL -o "$LOCAL_SCRIPTS/$script" "$REMOTE_SCRIPTS/$script" --no-progress-meter 
+    curl -fL -o "$LOCAL_SCRIPTS/$script" "$REMOTE_SCRIPTS/$script" --no-progress-meter
     chmod +x "$LOCAL_SCRIPTS/$script"
 done
 

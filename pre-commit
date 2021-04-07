@@ -27,6 +27,7 @@ HOOK_FOLDER="pre-commit-scripts"
 CURDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
 # Loop
+# shellcheck disable=SC2012
 for FILE in $(ls "$CURDIR/$HOOK_FOLDER/" | sort -g); do
     # Get full path
     FILE=$(realpath "$CURDIR/$HOOK_FOLDER/$FILE")
@@ -35,6 +36,7 @@ for FILE in $(ls "$CURDIR/$HOOK_FOLDER/" | sort -g); do
 
     OUTPUT=$(/bin/bash "$FILE")
 
+    # shellcheck disable=SC2181
     if [ $? -ne 0 ]; then
         # Don't execute the next hook if this one has failed
         printf "\n\e[1;91m%s\e[m\n" "ERROR! The $FILE has failed with the following error:" >&2
@@ -44,6 +46,6 @@ for FILE in $(ls "$CURDIR/$HOOK_FOLDER/" | sort -g); do
     fi
 done
 
-printf "\n\e[1;92m%s\e[m\n" "${BASH_SOURCE[0]} Success!"
+printf "\n\e[1;92m%s\e[m\n\n" "${BASH_SOURCE[0]} Success!"
 
 exit 0

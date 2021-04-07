@@ -4,7 +4,7 @@
 REMOTE="https://raw.githubusercontent.com/cavo789/bash_git_hooks/main"
 
 # Declare an array with the list of scripts present in the repository
-declare -a arrScripts=("010-not-on-specific-branches.sh" "999-global-pre-commit.sh")
+declare -a arrScripts=("010-not-on-specific-branches.sh" "0300-php-cs-fixer.sh" "0301-phpcbf.sh" "999-global-pre-commit.sh")
 
 # http://patorjk.com/software/taag/#p=display&f=Big&t=Git%20hooks
 cat <<\EOF

@@ -60,8 +60,7 @@ for FILE in $(ls "$CURDIR/$HOOK_FOLDER/" | sort -g); do
 
         if [[ "$exitCode" -gt 0 ]]; then
             # Don't execute the next hook if this one has failed
-            printf "\n\e[1;91m%s\e[m\n" "ERROR! The $FILE has failed with the following error:" >&2
-            printf "\n\e[1;91m%s\e[m\n" "The current git action is aborted." >&2
+            printf "\n\e[0;31m%s\e[m\n" "The current git action is aborted." >&2
             exit 1
         fi
     else

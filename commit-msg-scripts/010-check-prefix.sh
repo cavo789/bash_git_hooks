@@ -19,10 +19,18 @@ commitPrefix=${commitPrefix^^}
 
 # List of required prefix; the message should start with one of these prefix
 declare -A arrPrefixes=(
-    [CHORE:]="Small changes in the code like a refactoring"
+    [CHORE:]="Changes to the build process or auxiliary tools and libraries such as documentation generation"
+    [DOCS:]="New documentation or updated one"
     [FEAT:]="You've added a new feature"
     [FIX:]="You've fixed an issue"
+    [INIT:]="Your initial commit"
+    [MERGE:]="You're merging your branch"
+    [REFACTOR:]="A code change that neither fixes a bug or adds a feature"
+    [STYLE:]="Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)"
+    [TEST:]="Add missing tests, changes in tests files"
     [WIP:]="Work in progress"
+    # This one to allow a commit like, only, the "wip" word in it
+    [WIP]="Work in progress (the commit message can be, just, \"wip\", no semicolon required)"
 )
 
 FOUND=false
@@ -34,10 +42,15 @@ done
 
 if ! $FOUND; then
     printf "\e[1;31m%s\e[m\n" "    Your commit message doesn't contains a valid prefix" >&1
-    printf "\e[1;31m%s\e[m\n" "    Please use one of the prefix below when commiting" >&1
+    printf "\e[1;31m%s\e[m\n\n" "    Please use one of the prefix below when commiting" >&1
 
-    for prefix in "${!arrPrefixes[@]}"; do
-        printf "\e[1;36m%s\e[m\n" "    Use prefix \"$prefix\" --> ${arrPrefixes[$prefix]}"
+    # Loop the array. Since it's an associative array, we need to sort it first on the key
+    # shellcheck disable=SC2207
+    prefixes=( $( echo "${!arrPrefixes[@]}" | tr ' ' $'\n' | sort ) )
+
+    for prefix in "${prefixes[@]}"; do
+        # %-20s  means right padding 20
+        printf "\e[1;36m%-20s%s\e[m\n" "        $prefix" "${arrPrefixes[$prefix]}"
     done
 
     exit 1

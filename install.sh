@@ -72,8 +72,8 @@ function installPreCommit() {
 function installCommitMsg() {
     # Declare an array with the list of scripts present in the repository
     declare -a arrScripts=(
-        "010-wip-skip-ci.sh"
-        "020-check-prefix.sh"
+        "010-check-prefix.sh"
+        "020-wip-skip-ci.sh"
     )
 
     installHook "commit-msg"

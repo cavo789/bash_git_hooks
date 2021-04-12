@@ -95,8 +95,9 @@ EOF
 # Get this script from his repository
 # curl -fL -o install.sh $REMOTE/install.sh
 
+# Default answer will be Yes; timeout of 5 seconds
 # shellcheck disable=SC2034
-read -r -p "Do you want install hooks for this repository (Y) or globally (n)? [Y/n]:" yesno
+read -r -p "Do you want install hooks for this repository (Y) or globally (n)? [Y/n]:" -i "Y" -t 5 yesno
 
 # Transform to lowercase
 yesno="${yesno,,}"
